@@ -1,0 +1,78 @@
+
+.container{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: cursive;
+    padding-top: 20px;
+}
+.cell{
+    border: 1.5px solid rgb(0, 0, 0);
+    width: 80px;
+    text-align: center;
+    background-color: rgb(102, 198, 239);
+    padding: 4px;
+}
+
+.search{
+    padding: 5px;
+    border-radius: 5px;
+    border-radius: 1px solid black;
+    margin-bottom: 10px;
+}
+.name{
+    width: 200px;
+}
+
+button{
+    border-radius: 10px;
+    border: 1px solid black;
+    font-family: cursive;
+    cursor: pointer;
+}
+
+.add{
+    margin-bottom: 6px;
+    align-self: center;
+    background-color: white;
+    border: none;
+    color: rgb(63, 99, 197);
+    font-size: 14px;
+}
+.actions{
+    width: 200px;
+}
+
+.modal{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding:20px;
+    left: 150%;
+    position: absolute;
+    background-color: darkcyan;
+    z-index: 1;
+}
+
+.pages{
+    margin-top: 10px;
+}
+
+.open{
+    left: 50%;
+}
+
+.close{
+    align-self: flex-start;
+}
+.rate{
+    display: flex;
+    gap: 10px;
+    height: 30px;
+    justify-content: center;
+}
+
+.rate-value{
+    margin-top: 4px;
+}
