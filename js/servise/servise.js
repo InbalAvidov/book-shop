@@ -7,7 +7,6 @@ var gPageIdx = 0
 var PAGE_SIZE = 5
 
 
-console.log(_createBook());
 _createBooks()
 
 function _createBook(name, price, rate = 0) {
@@ -16,7 +15,7 @@ function _createBook(name, price, rate = 0) {
         name: (name) ? name : makeLorem(),
         price: (price) ? price : getRandomIntInclusive(10, 100),
         author: makeLorem(1),
-        info: makeLorem(25),
+        info: makeLorem(15),
         rate,
     }
     return book
@@ -24,7 +23,6 @@ function _createBook(name, price, rate = 0) {
 
 function _createBooks() {
     var books = loadFromStorage(STORAGE_KEY)
-    console.log(books);
     if (!books || !books.length) {
         console.log('hi');
         books = []
@@ -39,7 +37,7 @@ function _createBooks() {
 }
 
 function nextPage() {
-    if ((gPageIdx+1) * PAGE_SIZE >= gBooks.length) return
+    if ((gPageIdx + 1) * PAGE_SIZE >= gBooks.length) return
     gPageIdx++
 }
 
@@ -98,15 +96,12 @@ function minusRate(id) {
     else return
 }
 
-function setSortByRate(sort) {
+function setSort(val, filter) {
     var books
-    return books = gBooks.filter(book => book.rate >= sort)
+    if (val === -1) return books = gBooks.sort((a, b) => { return (a[filter] - b[filter]) })
+    else return books = gBooks.sort((a, b) => { return (b[filter] - a[filter]) })
 }
 
-function setSortByPrice(sort) {
-    var books
-    return books = gBooks.filter(book => book.price >= sort)
-}
 
 function sortByText(txt) {
     gSearch = true
@@ -115,4 +110,8 @@ function sortByText(txt) {
         if (book.name.includes(txt)) booksToDisplay.push(book)
     })
     return booksToDisplay
+}
+
+function resetPageIdx() {
+    gPageIdx = 0
 }

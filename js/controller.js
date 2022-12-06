@@ -1,6 +1,7 @@
 
 
 function onInit() {
+    getGLang()
     renderBooks()
     renderFilterByQueryStringParams()
 }
@@ -11,25 +12,27 @@ function renderBooks(books) {
         var books = []
         books = getBooks()
     }
-    document.querySelector("tbody").innerHTML = `<tr>
-    <th class="cell">Id</th>
-    <th class="cell name">Title</th>
-    <th class="cell">Price</th>
-    <th class="cell actions">Actions</th>
-    <th class="cell">Rate</th>
+    document.querySelector("tbody").innerHTML = `<tr class='table-dark'>
+    <th  data-trans="id">Id</th>
+    <th class="name" data-trans="book-name">Title</th>
+    <th  data-trans="price">Price</th>
+    <th class="actions" data-trans="actions">Actions</th>
+    <th  data-trans="rate">Rate</th>
     </tr>`
-    strHTML = books.map(book => `<tr>
-    <td class="cell">${book.id}</td>
-    <td class="cell name">${book.name}</td>
-    <td class="cell">${book.price}$</td>
-    <td class="cell">
-    <button onclick="onReadBook('${book.id}')" class="read">Info</button>
-    <button onclick="onUpdateBook('${book.id}')" class="update">Update</button>
-    <button onclick="onDeleteBook('${book.id}')" class="delete">Delete</button>
-    <td class="cell">${book.rate}</td>
+    strHTML = books.map(book => `<tr class='table-light'>
+    <td  >${book.id}</td>
+    <td class="name" >${book.name}</td>
+    <td >${book.price}$</td>
+    <td >
+    <button onclick="onReadBook('${book.id}')" class="read" data-trans="info">Info</button>
+    <button onclick="onUpdateBook('${book.id}')" class="update" data-trans="update">Update</button>
+    <button onclick="onDeleteBook('${book.id}')" class="delete" data-trans="delete">Delete</button>
+    <td >${book.rate}</td>
     </td>
     </tr>`)
     document.querySelector("tbody").innerHTML += strHTML.join('')
+    const lang = getGLang()
+    onLang(lang)
 }
 function onReadBook(bookId) {
     const book = getBook(bookId)
@@ -84,25 +87,12 @@ function onMinusRate(id) {
     renderBooks()
 }
 
-function onSetSortByRate(val) {
-    document.querySelector(".filter-book-price").value = 0
-    var books = setSortByRate(val.minRate)
-    renderBooks(books)
+function onSetSort(val, filter) {
+    console.log(val, filter);
+    var books = setSort(val, filter)
+    resetPageIdx()
+    renderBooks()
 
-    const queryStringParams = `?filter=${val}`
-    const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + queryStringParams
-    window.history.pushState({ path: newUrl }, '', newUrl)
-
-}
-
-function onSetSortByPrice(val) {
-    document.querySelector(".filter-book-rate").value = 0
-    var books = setSortByPrice(val.minPrice)
-    renderBooks(books)
-
-    const queryStringParams = `?filter=${val}`
-    const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + queryStringParams
-    window.history.pushState({ path: newUrl }, '', newUrl)
 
 }
 
@@ -118,20 +108,14 @@ function onSearch(ev) {
 
 function renderFilterByQueryStringParams() {
     const queryStringParams = new URLSearchParams(window.location.search)
-    console.log(queryStringParams);
     const filterBy = {
-        rate: queryStringParams.get('rate') || '',
-        price: queryStringParams.get('price') || '',
-        search: queryStringParams.get('search') || ''
+        search: queryStringParams.get('search') || '',
+        lang: queryStringParams.get('lang')
     }
-    if (!filterBy.rate && !filterBy.price && !filterBy.search) return
-    if (filterBy.rate) {
-        document.querySelector(".filter-book-rate").value = filterBy.filter
-        setSortByRate(filterBy.filter)
-    }
-    else if (filterBy.price) {
-        document.querySelector(".filter-book-price").value = filterBy.filter
-        setSortByPrice(filterBy.filter)
+    console.log(filterBy);
+    if (!filterBy.lang && !filterBy.search) return
+    if (filterBy.lang) {
+        onLang(filterBy.lang)
     }
     else if (filterBy.search) {
         document.querySelector("input[name=search]").value = filterBy.search
@@ -140,11 +124,31 @@ function renderFilterByQueryStringParams() {
     }
 }
 
-function onNextPage(){
+function onNextPage() {
     nextPage()
     renderBooks()
 }
-function onPreviusPage(){
+function onPreviusPage() {
     previusPage()
     renderBooks()
+}
+
+function onLang(lang) {
+    if (lang === 'he') {
+        document.body.classList.add("lang-he")
+        updateGLang(lang)
+        const queryStringParams = `?lang=${lang}`
+        const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + queryStringParams
+        window.history.pushState({ path: newUrl }, '', newUrl)
+        saveToStorage('LANG', lang)
+
+    } else {
+        document.body.classList.remove("lang-he")
+        updateGLang(lang)
+        const queryStringParams = `?lang=${lang}`
+        const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + queryStringParams
+        window.history.pushState({ path: newUrl }, '', newUrl)
+        saveToStorage('LANG', lang)
+    }
+    doTrans()
 }

@@ -2,16 +2,23 @@
 .container{
     position: relative;
     display: flex;
+    height: 100vh;
     flex-direction: column;
     align-items: center;
     font-family: cursive;
     padding-top: 20px;
 }
-.cell{
-    border: 1.5px solid rgb(0, 0, 0);
+
+.dropdown-item{
+    cursor: pointer;
+}
+th{
+text-align: center;
+}
+
+td{
     width: 80px;
     text-align: center;
-    background-color: rgb(102, 198, 239);
     padding: 4px;
 }
 
@@ -21,8 +28,18 @@
     border-radius: 1px solid black;
     margin-bottom: 10px;
 }
+.btn-outline-success{
+    height: 50%;
+}
+
+p{
+    display: inline;
+}
 .name{
     width: 200px;
+}
+.actions{
+    width: 250px;
 }
 
 button{
@@ -31,38 +48,43 @@ button{
     font-family: cursive;
     cursor: pointer;
 }
-
 .add{
-    margin-bottom: 6px;
-    align-self: center;
-    background-color: white;
-    border: none;
-    color: rgb(63, 99, 197);
-    font-size: 14px;
+    cursor: pointer;
 }
 .actions{
     width: 200px;
 }
 
+.read{
+    background-color: rgb(210, 250, 223);
+}
+.update{
+    background-color: rgb(170, 223, 255);
+}
+.delete{
+    background-color: rgb(189, 189, 189);
+}
 .modal{
-    display: flex;
+    display: none;
+    height: 60vh;
+    max-width: 60vw;
     flex-direction: column;
     align-items: center;
+    top: 20%;
+    left: 20%;
     padding:20px;
-    left: 150%;
     position: absolute;
-    background-color: darkcyan;
+    background-color: rgb(57, 58, 58);
+    color: rgb(210, 210, 210);
     z-index: 1;
 }
 
 .pages{
     margin-top: 10px;
 }
-
-.open{
-    left: 50%;
-}
-
+ .open{
+    display: flex
+ }
 .close{
     align-self: flex-start;
 }
@@ -75,4 +97,15 @@ button{
 
 .rate-value{
     margin-top: 4px;
+}
+
+.btn-lang{
+    margin-top: 15px;
+    align-self: flex-start;
+    position: relative;
+    bottom: 0;
+}
+
+.lang-he{
+    direction: rtl;
 }
